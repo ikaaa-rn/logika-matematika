@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Main Logika Seru!</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#fff8e7;--card:#fff;--text:#2b2b3a;--accent:#ff7a59;--blue:#3d8bfd;--green:#2fb36d;--red:#e5484d;--ink:#2d2a2a;--line:#9a948a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1a24;--card:#262536;--text:#f4f1ea;--accent:#ff8f72;--blue:#6aa6ff;--green:#4cd08a;--red:#ff6b70;--ink:#0f0e12;--line:#6e6a78}}
+:root[data-theme="dark"]{--bg:#1b1a24;--card:#262536;--text:#f4f1ea;--accent:#ff8f72;--blue:#6aa6ff;--green:#4cd08a;--red:#ff6b70;--ink:#0f0e12;--line:#6e6a78}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Baloo 2","Comic Sans MS","Trebuchet MS",system-ui,sans-serif;font-size:20px;line-height:1.4}
+main{max-width:680px;margin:0 auto;padding:16px}
+h1{text-align:center;font-size:30px;margin:6px 0}
+.card{background:var(--card);border-radius:24px;padding:18px;margin:14px 0;box-shadow:0 4px 0 rgba(0,0,0,.12);text-align:center}
+.tag{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:2px 16px;font-weight:700}
+.row{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:12px 0}
+.big{font-size:40px}
+.grid{display:grid;width:max-content;border:3px solid var(--line);background:#fff}
+.c{width:var(--s);height:var(--s);display:flex;align-items:center;justify-content:center}
+.tb{background:var(--ink)}.tw,.to,.tf{background:#fff}.tr{background:#e5484d}.tu{background:#8ecbf5;outline:1px dashed #5aa0cf;outline-offset:-1px}
+.ta{background:#ffb84d;outline:1px dashed #c98418;outline-offset:-1px}.te{background:transparent;outline:1px dashed var(--line);outline-offset:-1px}
+.c i{width:58%;height:58%;border-radius:50%;display:block}
+.c i.o{border:5px solid var(--ink)}.c i.f{background:var(--ink)}
+.svb{background:#fff;border:3px solid var(--line);display:inline-block;line-height:0}
+.slot{width:80px;height:80px;border:4px dashed var(--line);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:44px;color:var(--line)}
+.num{background:#fad7a0;color:#2b2b3a;border-radius:22px;width:110px;height:110px;font-size:72px;font-weight:800;display:flex;align-items:center;justify-content:center}
+button{font:inherit;font-weight:700;border:0;border-radius:18px;padding:12px 22px;color:#fff;background:var(--blue);box-shadow:0 4px 0 rgba(0,0,0,.25);cursor:pointer;margin:6px}
+button:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+button.alt{background:var(--accent)}button.gr{background:var(--green)}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.menu button{font-size:19px;padding:12px 6px}.ci{display:inline-flex;width:46px;height:46px;border-radius:50%;background:#f9d5d5;color:#2b2b3a;align-items:center;justify-content:center;font-weight:700;margin:3px;font-size:22px}.gc{width:46px;height:46px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);font-size:26px}.gh{background:#fff3b0;color:#2b2b3a;font-weight:700}
+.opts{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.opt{background:var(--card);color:var(--text);border:4px solid var(--line);border-radius:20px;padding:8px 10px;box-shadow:none;margin:0}
+.opt b{display:block;font-size:26px}
+.opt.ok{border-color:var(--green);background:rgba(47,179,109,.2)}
+.opt.no{border-color:var(--red);background:rgba(229,72,77,.15)}
+.fb{margin-top:12px;text-align:left}
+.fb .res{font-size:26px;font-weight:800;text-align:center}
+.good{color:var(--green)}.bad{color:var(--red)}
+.tip{background:rgba(61,139,253,.14);border-radius:16px;padding:10px 14px;margin:8px 0}
+.bar{display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.dots span{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--line);margin:0 2px}
+.dots span.d{background:var(--green)}.dots span.x{background:var(--red)}.dots span.n{outline:3px solid var(--blue)}
+.spin{transition:transform .9s ease-in-out;margin:14px}
+.stars{font-size:44px;letter-spacing:4px}
+</style>
+</head>
+<body>
+<main>
+<h1>🧩 Main Logika Seru!</h1>
+<div id="app"></div>
+</main>
+<script>
+var $=function(s){return document.querySelector(s)};
+function R(n){return Math.floor(Math.random()*n)}
+function sh(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=R(i+1),t=a[i];a[i]=a[j];a[j]=t}return a}
+function el(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e}
+function G(cells,cols,sz){var g=el('div','grid');g.style.gridTemplateColumns='repeat('+cols+',1fr)';g.style.setProperty('--s',sz+'px');
+  cells.forEach(function(t){var c=el('div','c t'+t);if(t==='o')c.innerHTML='<i class="o"></i>';if(t==='f')c.innerHTML='<i class="f"></i>';g.appendChild(c)});return g}
+function rowOf(){var r=el('div','row');[].slice.call(arguments).forEach(function(x){r.appendChild(typeof x==='string'?el('div','big',x):x)});return r}
+function mkOpts(ans,wr,fill){var seen={},o=[ans];seen[ans.join()]=1;
+  wr.forEach(function(w){var k=w.join();if(!seen[k]&&o.length<3){seen[k]=1;o.push(w)}});
+  var t=0;while(o.length<3&&t++<80){var w=fill(),k=w.join();if(!seen[k]){seen[k]=1;o.push(w)}}
+  var s=sh(o);return{list:s,ans:s.indexOf(ans)}}
+
+/* 1. PUTAR */
+function rot(c,cw){return cw?[c[2],c[0],c[3],c[1]]:[c[1],c[3],c[0],c[2]]}
+function qRot(){
+  var p=sh([0,1,2,3]),c=[];c[p[0]]='b';c[p[1]]='b';c[p[2]]='o';c[p[3]]='f';
+  var cw=R(2)===0,ans=rot(c,cw);
+  var o=mkOpts(ans,[rot(c,!cw),rot(ans,cw),c],function(){return sh(c)});
+  var dir=cw?'kanan ↻ (searah jarum jam)':'kiri ↺ (berlawanan jarum jam)';
+  return{tag:'🔄 Putar',ask:'Kotak diputar ke '+dir+'. Gambar mana hasilnya?',
+    q:rowOf(G(c,2,50),cw?'↻':'↺',el('div','slot','?')),opts:o.list.map(function(x){return G(x,2,38)}),ans:o.ans,
+    why:'Kotak diputar seperempat putaran ke '+(cw?'kanan':'kiri')+'. Setiap kotak pindah satu tempat. Lihat bulat kosong dan bulat hitam: mereka ikut pindah, tempatnya mengikuti arah putaran. Tekan tombol Putar untuk melihatnya!',
+    demo:function(){var w=el('div'),b=G(c,2,46),d=0;b.classList.add('spin');
+      var bt=el('button','alt','Putar '+(cw?'↻':'↺'));bt.onclick=function(){d+=cw?90:-90;b.style.transform='rotate('+d+'deg)'};
+      w.style.textAlign='center';w.appendChild(b);w.appendChild(el('br'));w.appendChild(bt);return w}}}
+
+/* 2. CERMIN */
+function fH(c){return[c[2],c[1],c[0],c[5],c[4],c[3]]}
+function fV(c){return[c[3],c[4],c[5],c[0],c[1],c[2]]}
+function qMir(){
+  var c,pool=['w','w','r','u'];
+  do{c=[];for(var i=0;i<6;i++)c.push(pool[R(4)])}while(fH(c).join()===c.join()||fH(c).join()===fV(c).join()||fH(fV(c)).join()===c.join()||fV(c).join()===c.join());
+  var ans=fH(c);
+  var o=mkOpts(ans,[c,fV(c),fH(fV(c))],function(){return sh(c)});
+  return{tag:'🪞 Cermin',ask:'Ada cermin di sebelah kanan. Bayangan di cermin yang mana?',
+    q:rowOf(G(c,3,42),'🪞',el('div','slot','?')),opts:o.list.map(function(x){return G(x,3,30)}),ans:o.ans,
+    why:'Bayangan cermin itu terbalik kiri dan kanan. Yang tadinya di kiri pindah ke kanan, yang di kanan pindah ke kiri. Tapi yang di atas tetap di atas, yang di bawah tetap di bawah.',
+    demo:function(){return rowOf(G(c,3,34),'↔️',G(ans,3,34))}}}
+
+/* 3. GABUNG */
+function qCom(){
+  var cols=4,rows=3,b;
+  do{b=[];for(var r=0;r<rows;r++)b.push(1+R(3))}while(b[0]===b[1]&&b[1]===b[2]);
+  var A=[],B=[];
+  for(var r=0;r<rows;r++)for(var k=0;k<cols;k++){A.push(k<b[r]?'u':'e');B.push(k<b[r]?'e':'a')}
+  function tog(){var x=B.slice(),i=R(12);x[i]=x[i]==='a'?'e':'a';return x}
+  var o=mkOpts(B,[tog(),tog(),tog()],tog);
+  return{tag:'🧱 Gabung',ask:'Kotak biru butuh potongan supaya jadi persegi panjang penuh. Potongan oranye mana yang pas?',
+    q:rowOf(G(A,4,38),'+',el('div','slot','?'),'=','🟦'),opts:o.list.map(function(x){return G(x,4,26)}),ans:o.ans,
+    why:'Potongan yang pas harus menutup SEMUA bagian kosong, tidak boleh ada lubang, dan tidak boleh menumpuk di bagian biru. Kalau digabung, hasilnya harus penuh dan rapi.',
+    demo:function(){return rowOf(G(A,4,30),'+',G(B,4,30),'=',G(A.map(function(v,i){return v==='u'?'u':'a'}),4,30))}}}
+
+/* 4. PISAH */
+var IT=['<circle cx="30" cy="30" r="14" fill="#e5484d"/>','<circle cx="62" cy="26" r="6" fill="#fff" stroke="#2d2a2a" stroke-width="3"/>','<circle cx="100" cy="56" r="14" fill="#fff" stroke="#2d2a2a" stroke-width="3"/>','<line x1="3" y1="77" x2="137" y2="3" stroke="#e5484d" stroke-width="3"/>'];
+var NM=['bulat merah','bulat kecil','bulat besar','garis merah'];
+function sv(s,w){var d=el('div','svb','<svg viewBox="0 0 140 80" width="'+w+'">'+s.map(function(i){return IT[i]}).join('')+'</svg>');return d}
+function names(s){return s.map(function(i){return NM[i]}).join(' + ')}
+function qSep(){
+  var all=[0,1,2,3],p1=sh(all).slice(0,1+R(2)).sort(),ans=all.filter(function(i){return p1.indexOf(i)<0});
+  var o=mkOpts(ans,[p1],function(){return sh(all).slice(0,1+R(3)).sort()});
+  return{tag:'✂️ Pisah',ask:'Gambar besar dibagi jadi dua. Satu bagian sudah ada. Bagian yang satunya lagi yang mana?',
+    q:rowOf(sv(all,120),'➡️',sv(p1,90),'+',el('div','slot','?')),opts:o.list.map(function(x){return sv(x,100)}),ans:o.ans,
+    why:'Gambar besar punya: '+names(all)+'. Bagian pertama mengambil: '+names(p1)+'. Jadi sisanya: '+names(ans)+'. Gabungan kedua bagian harus sama dengan gambar besar!'}}
+
+/* 5. HITUNG */
+function qCnt(){
+  var n=3+R(8);function mk(m){var c=[];for(var i=0;i<10;i++)c.push(i<m?'u':'e');return c}
+  var ans=mk(n),w=[];[1,-1,2,-2].forEach(function(d){var m=n+d;if(m>=1&&m<=10)w.push(mk(m))});
+  var o=mkOpts(ans,sh(w),function(){return mk(1+R(10))});
+  var how=n>5?'5 kotak di baris atas + '+(n-5)+' kotak di baris bawah':n+' kotak di baris atas';
+  return{tag:'🔢 Hitung',ask:'Angkanya '+n+'. Gambar mana yang punya '+n+' kotak biru?',
+    q:rowOf(el('div','num',''+n),'=','<b style="font-size:30px">'+n+' ■</b>'),opts:o.list.map(function(x){return G(x,5,24)}),ans:o.ans,
+    why:n+' artinya ada '+n+' kotak biru. Ayo hitung satu-satu: '+how+'. Jumlahnya harus pas '+n+', tidak kurang dan tidak lebih.'}}
+
+var EM=['🍎','🍌','🍇','🍓','🍊','🍉','🐶','🐱','🐰','🐸','🚗','⚽','🎈','⭐','🍪','🦆'];
+function TX(s,z){var d=el('div','',s);d.style.cssText='font-size:'+(z||30)+'px;font-weight:700;line-height:1.5';return d}
+function T(v){return TX(v,36)}
+function numQ(tag,ask,q,ans,why,lo){var w=[];[1,-1,2,-2,3,-3,10,-10].forEach(function(d){var v=ans+d;if(v>=(lo||0))w.push([v])});
+  var o=mkOpts([ans],sh(w).slice(0,6),function(){return[Math.max(lo||0,ans+R(9)-4)]});
+  return{tag:tag,ask:ask,q:q,opts:o.list.map(function(x){return T(x[0])}),ans:o.ans,why:why}}
+function chQ(tag,ask,q,ans,pool,why){var w=sh(pool.filter(function(x){return x!==ans})).slice(0,4).map(function(x){return[x]});
+  var o=mkOpts([ans],w,function(){return[pool[R(pool.length)]]});
+  return{tag:tag,ask:ask,q:q,opts:o.list.map(function(x){return T(x[0])}),ans:o.ans,why:why}}
+/* POLA */
+function qSeq(){var m=R(3),a=[],i,ans;
+  if(m<2){var st=2+R(8),s=m?50+R(40):1+R(20),d=m?-st:st;for(i=0;i<4;i++)a.push(s+d*i);ans=s+d*4;
+    return numQ('🔮 Pola Angka','Angka berikutnya apa ya?',TX(a.join(' , ')+' , ❓',34),ans,'Lihat selisih tiap angka: selalu '+(m?'berkurang ':'bertambah ')+st+'. Jadi setelah '+a[3]+' adalah '+a[3]+(m?' − ':' + ')+st+' = '+ans+'.')}
+  var L='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''),k=1+R(4),s2=R(26-k*4);for(i=0;i<4;i++)a.push(L[s2+k*i]);ans=L[s2+k*4];
+  return chQ('🔮 Pola Huruf','Huruf berikutnya apa ya?',TX(a.join(' , ')+' , ❓',34),ans,L,'Di urutan abjad (A B C D ...), tiap huruf melompat '+k+' langkah. Setelah '+a[3]+' lompat '+k+' lagi jadi '+ans+'.')}
+function qRep(){var p=2+R(3),u=sh(EM).slice(0,p),sq=[],n=p*2+1+R(p),i;for(i=0;i<n;i++)sq.push(u[i%p]);var ans=u[n%p];
+  var pool=u.concat(sh(EM).filter(function(x){return u.indexOf(x)<0}).slice(0,1));
+  return chQ('🔁 Pola Gambar','Gambar apa yang datang berikutnya?',TX(sq.join(' ')+' ❓',34),ans,pool,'Polanya berulang: '+u.join(' ')+' lalu mulai lagi dari awal. Setelah '+sq[n-1]+' datanglah '+ans+'.')}
+/* TIMBANGAN & TEBAK NILAI */
+function qBal(){var e=sh(EM).slice(0,3),lo=e[0],mi=e[1],hi=e[2],r1=2+R(2),r2=2+R(2);
+  function eq(a,r,b){var l=a.repeat(r);return R(2)?l+' ⚖️ '+b:b+' ⚖️ '+l}
+  var q=el('div');sh([eq(lo,r1,mi),eq(mi,r2,hi)]).forEach(function(s){q.appendChild(TX(s,34))});var hv=R(2);
+  return chQ('⚖️ Timbangan','Tanda ⚖️ artinya timbangan seimbang (sama berat). Mana yang '+(hv?'PALING BERAT?':'PALING RINGAN?'),q,hv?hi:lo,e,
+    r1+' '+lo+' sama berat dengan 1 '+mi+', jadi '+mi+' lebih berat dari '+lo+'. Lalu '+r2+' '+mi+' sama berat dengan 1 '+hi+', jadi '+hi+' lebih berat lagi. Urutan dari ringan ke berat: '+lo+', '+mi+', '+hi+'.')}
+function qJus(){var e=sh(EM).slice(0,2),x,y,m=R(2),ln,ans,why;
+  if(!m){x=2+R(8);y=1+R(9);ln=[e[0]+' + '+e[0]+' = '+2*x,e[1]+' + '+e[1]+' = '+2*y,e[0]+' + '+e[1]+' = ❓'];ans=x+y;
+    why=e[0]+' + '+e[0]+' = '+2*x+', jadi satu '+e[0]+' = '+x+'. '+e[1]+' + '+e[1]+' = '+2*y+', jadi satu '+e[1]+' = '+y+'. Lalu '+x+' + '+y+' = '+ans+'.'}
+  else{x=2+R(6);y=1+R(8);ln=[e[0]+' + '+e[0]+' + '+e[0]+' = '+3*x,e[0]+' + '+e[1]+' = '+(x+y),e[1]+' = ❓'];ans=y;
+    why='Tiga '+e[0]+' = '+3*x+', jadi satu '+e[0]+' = '+x+'. Lalu '+x+' + '+e[1]+' = '+(x+y)+', jadi '+e[1]+' = '+(x+y)+' − '+x+' = '+y+'.'}
+  var q=el('div');ln.forEach(function(l){q.appendChild(TX(l,32))});return numQ('🍎 Tebak Nilai','Setiap gambar punya nilai angka. Berapa nilai ❓?',q,ans,why,0)}
+/* HITUNG */
+function qEq(){var m=R(4),a,b,c,d,ans,s,why,ask='Berapa angka yang cocok untuk ❓?';
+  if(m===0){c=2+R(8);ans=2+R(8);b=c+ans;s=b+' − ❓ = '+c;why='Dari '+b+' diambil sebagian sisa '+c+', jadi yang diambil: '+b+' − '+c+' = '+ans+'. Cek: '+b+' − '+ans+' = '+c+'.'}
+  else if(m===1){a=2+R(8);ans=2+R(9);b=a+ans;s='❓ + '+a+' = '+b;why='Mencari yang hilang: '+b+' − '+a+' = '+ans+'. Cek: '+ans+' + '+a+' = '+b+'.'}
+  else if(m===2){ans=1+R(4);s='1❓ + 1❓ = '+(20+2*ans);why='Lihat angka satuan dulu: ❓ + ❓ = '+2*ans+'. Karena '+ans+' + '+ans+' = '+2*ans+', maka ❓ = '+ans+'.'}
+  else{do{a=8+R(8);b=1+R(9);c=1+R(9);d=1+R(9);ans=a-b+c-d}while(ans<0||a-b<0||a-b+c-d>20);s=a+' − '+b+' + '+c+' − '+d+' = ❓';ask='Berapa hasilnya? Hitung pelan-pelan dari kiri.';
+    why='Dari kiri: '+a+' − '+b+' = '+(a-b)+'; lalu + '+c+' = '+(a-b+c)+'; lalu − '+d+' = '+ans+'.'}
+  return numQ('➕ Hitung & Cari',ask,TX(s,34),ans,why,0)}
+function qSign(){var n,sg,t,i;
+  function ev(s){var v=n[0];for(var j=0;j<3;j++)v+=(s[j]==='+'?1:-1)*n[j+1];return v}
+  do{n=[];sg=[];for(i=0;i<4;i++)n.push(1+R(9));for(i=0;i<3;i++)sg.push(R(2)?'+':'−');t=ev(sg)}while(t<0||t>15);
+  var all=[];for(var m=0;m<8;m++)all.push([m&1?'+':'−',m&2?'+':'−',m&4?'+':'−']);
+  var bad=sh(all.filter(function(x){return ev(x)!==t}));
+  var o=mkOpts(sg,bad.slice(0,4),function(){return bad[R(bad.length)]});
+  var v=n[0],ps=[];for(i=0;i<3;i++){var nv=v+(sg[i]==='+'?1:-1)*n[i+1];ps.push(v+' '+sg[i]+' '+n[i+1]+' = '+nv);v=nv}
+  return{tag:'➕➖ Isi Tanda',ask:'Isi setiap ❓ dengan + atau − supaya hitungannya benar. Pilih urutan tanda yang pas!',q:TX(n[0]+' ❓ '+n[1]+' ❓ '+n[2]+' ❓ '+n[3]+' = '+t,32),
+    opts:o.list.map(function(x){return T(x.join('  '))}),ans:o.ans,why:'Coba tanda satu-satu dari kiri: '+ps.join(', ')+'. Hasil akhirnya '+t+', cocok!'}}
+function qPar(){
+  if(R(2)){var s=20+R(40),g=1+R(20),l=1+R(20),t=s+g-l;
+    return chQ('🔢 Ganjil Genap','Eric punya '+s+' koin. Ibu memberi '+g+' koin, lalu Eric memberi '+l+' koin ke Peter. Koin Eric sekarang ganjil atau genap?',TX('🪙 '+s+' + '+g+' − '+l+' = ❓',32),t%2?'Ganjil':'Genap',['Ganjil','Genap'],
+      s+' + '+g+' = '+(s+g)+', lalu − '+l+' = '+t+'. Angka '+t+' berakhir '+(t%10)+'. Angka yang berakhir 0, 2, 4, 6, 8 itu genap, yang berakhir 1, 3, 5, 7, 9 itu ganjil. Jadi '+(t%2?'ganjil.':'genap.'))}
+  var a,ev,ans;do{a=[];while(a.length<6){var v=5+R(55);if(a.indexOf(v)<0)a.push(v)}ev=a.filter(function(x){return x%2===0});ans=Math.max.apply(null,ev)}while(ev.length<2||ans===Math.max.apply(null,a));
+  return chQ('🔢 Ganjil Genap','Dari angka-angka ini, bilangan GENAP yang paling besar yang mana?',TX(a.join(' , '),34),ans,a,'Bilangan genap berakhir 0, 2, 4, 6, atau 8. Yang genap di sini: '+ev.join(', ')+'. Yang paling besar: '+ans+'.')}
+function qAge(){var nm=sh(['Andi','Budi','Rafa','Dimas'])[0],old=R(2),n=6+R(4),k=2+R(4),m=3+R(6),s=old?n+k:n-k,ans=s+m;
+  return numQ('🎂 Umur',nm+' berusia '+n+' tahun. '+(old?'Kakaknya':'Adiknya')+' '+k+' tahun lebih '+(old?'tua':'muda')+'. Berapa umur '+(old?'kakaknya':'adiknya')+' '+m+' tahun lagi?',TX('🧒 '+nm+' = '+n+' tahun',32),ans,
+    (old?'Kakak':'Adik')+' sekarang: '+n+(old?' + ':' − ')+k+' = '+s+' tahun. '+m+' tahun lagi: '+s+' + '+m+' = '+ans+'.',0)}
+/* POHON & SEGITIGA BULAT */
+function qTree(){var v=[],i;for(i=0;i<4;i++)v.push(1+R(6));var L=v[0]+v[1],Rr=v[2]+v[3],all=[L+Rr,L,Rr,v[0],v[1],v[2],v[3]],h=R(7);
+  function bx(i){return el('span','ci',i===h?'❓':all[i])}
+  var w=el('div');w.style.textAlign='center';[[0],[1,2],[3,4,5,6]].forEach(function(r,ri){var d=el('div');d.style.margin='8px 0';if(ri===1)d.style.padding='0 40px';r.forEach(function(i){var b=bx(i);if(ri===1)b.style.margin='3px 28px';d.appendChild(b)});w.appendChild(d)});
+  return numQ('🌳 Pohon Angka','Angka di atas adalah jumlah dua angka di bawahnya. Berapa angka ❓?',w,all[h],'Angka di atas = dua angka di bawahnya ditambah. Contoh: '+L+' = '+v[0]+' + '+v[1]+'. Kalau mencari angka bawah, kurangkan. Jadi ❓ = '+all[h]+'.',1)}
+function tri(t,l,r){var d=el('div');d.style.margin='6px';d.innerHTML='<div><span class="ci">'+t+'</span></div><div><span class="ci">'+l+'</span><span class="ci">'+r+'</span></div>';return d}
+function qTri(){var n=[],i;for(i=0;i<3;i++){var a=1+R(8),b=1+R(8);n.push([a+b,a,b])}var h=R(3),ans=n[2][h],t=n[2].slice();t[h]='❓';
+  return numQ('🔴 Segitiga Bulat','Tiap kelompok punya aturan yang sama. Berapa angka ❓?',rowOf(tri.apply(null,n[0]),tri.apply(null,n[1]),tri.apply(null,t)),ans,
+    'Aturannya: bulat atas = dua bulat bawah ditambah. Contoh: '+n[0][1]+' + '+n[0][2]+' = '+n[0][0]+'. Jadi '+(h===0?n[2][1]+' + '+n[2][2]+' = '+ans:'❓ = '+n[2][0]+' − '+n[2][3-h]+' = '+ans)+'.',1)}
+/* PETA, BANDING, TERBANYAK, TINGGI, KOIN, SUSUN */
+function qGrd(){var it=sh(EM).slice(0,5),pos=sh([0,1,2,3,4,5,6,7,8,9,10,11]).slice(0,5),r,c;
+  var g=el('div');g.style.cssText='display:grid;grid-template-columns:repeat(5,46px);width:max-content;margin:12px auto';
+  g.appendChild(el('div','gc gh',''));'ABCD'.split('').forEach(function(h){g.appendChild(el('div','gc gh',h))});
+  for(r=0;r<3;r++){g.appendChild(el('div','gc gh',''+(r+1)));for(c=0;c<4;c++){var k=pos.indexOf(r*4+c);g.appendChild(el('div','gc',k>=0?it[k]:''))}}
+  var t=R(5),p=pos[t],rw=Math.floor(p/4)+1,cl='ABCD'[p%4];
+  return chQ('🗺️ Peta Kotak','Apa yang ada di kotak '+rw+cl+'? (angka = baris, huruf = kolom)',g,it[t],it,'Cari baris '+rw+' (hitung dari atas), lalu kolom '+cl+' (hitung dari kiri). Tempat mereka bertemu ada '+it[t]+'.')}
+function qCmp(){var gt=R(2),sy=gt?'&gt;':'&lt;';
+  function pair(ok){var a,b;do{a=10+R(90);b=10+R(90)}while(Math.abs(a-b)<4);var need=ok?!!gt:!gt;if((a>b)!==need){var x=a;a=b;b=x}return[a,b]}
+  var ans=pair(true),wr=[pair(false),pair(false)],o=mkOpts(ans,wr,function(){return pair(false)});
+  return{tag:'🐊 Lebih Besar?',ask:'Tanda ini artinya angka kiri lebih '+(gt?'BESAR':'KECIL')+' dari angka kanan. Pasangan angka mana yang cocok dengan tanda ini?',q:rowOf(TX(sy,64)),
+    opts:o.list.map(function(x){return T(x[0]+'  ❓  '+x[1])}),ans:o.ans,
+    why:'Mulut tanda selalu terbuka ke angka yang lebih besar. Pasangan yang cocok: '+ans[0]+(gt?' lebih besar dari ':' lebih kecil dari ')+ans[1]+'. Lihat angka puluhan dulu, baru satuan.'}}
+function qMst(){var e=sh(EM).slice(0,3),c=sh([1,2,3,4,5,6,7,8,9]).slice(0,3),mx=R(2),tg=mx?Math.max.apply(null,c):Math.min.apply(null,c),i=c.indexOf(tg);
+  return chQ('👀 Terbanyak','Hitung dulu! Mana yang '+(mx?'PALING BANYAK?':'PALING SEDIKIT?'),rowOf(TX(e[0].repeat(c[0]),30),TX(e[1].repeat(c[1]),30),TX(e[2].repeat(c[2]),30)),e[i],e,
+    'Hitung tiap kelompok: '+e.map(function(x,j){return x+' ada '+c[j]}).join(', ')+'. Yang paling '+(mx?'banyak':'sedikit')+' adalah '+e[i]+' ('+c[i]+').')}
+function qHgt(){var A=sh([['🐶','anjing'],['🐴','kuda'],['🐻','beruang']])[0],B=sh([['🐭','tikus'],['🐱','kucing'],['🐰','kelinci']])[0],h1=6+R(5),h2=2+R(h1-3),ans=h1-h2;
+  function bar(e,h){var d=el('div');d.style.cssText='display:flex;align-items:center;gap:8px;margin:6px 0';d.innerHTML='<span style="font-size:32px">'+e+'</span><span style="display:inline-block;height:26px;width:'+h*22+'px;background:#8ecbf5;border-radius:6px"></span><b>'+h+'</b>';return d}
+  var w=el('div');w.style.cssText='display:inline-block;text-align:left';w.appendChild(bar(A[0],h1));w.appendChild(bar(B[0],h2));
+  return numQ('📏 Beda Tinggi','Tinggi '+A[1]+' adalah '+h1+', tinggi '+B[1]+' adalah '+h2+'. Berapa beda tingginya?',w,ans,'Beda tinggi = yang tinggi dikurangi yang pendek: '+h1+' − '+h2+' = '+ans+'. Kamu juga bisa menghitung kotak sisanya di gambar.',0)}
+function qCoi(){var pr=[[2,5],[1,5],[5,10],[2,10],[5,20],[10,50]][R(6)],a=pr[0],b=pr[1],n=3+R(8);while(n*a<b)n++;var tot=n*a,ans=Math.floor(tot/b),rem=tot-ans*b;
+  return numQ('🪙 Tukar Koin','Rani punya '+n+' koin Rp'+a+'. Berapa koin Rp'+b+' yang bisa ia dapat kalau ditukar?',TX('🪙'.repeat(n)+'  (tiap koin Rp'+a+')',26),ans,
+    'Uang Rani: '+n+' koin, tiap koin '+a+', jadi total '+tot+'. Satu koin besar bernilai '+b+'. Ada berapa '+b+' di dalam '+tot+'? Ada '+ans+(rem?' (dan sisa '+rem+' tidak cukup untuk 1 koin lagi)':'')+'.',0)}
+function qSml(){var d=sh([1,2,3,4,5,6,7,8,9]).slice(0,3),i,j,k;d.push(0);d=sh(d);var big=R(2),s=d.slice().sort(function(x,y){return x-y});
+  var ans=big?''+s[3]+s[2]+s[1]:''+s[1]+0+s[2],pool=[];
+  for(i=0;i<4;i++)for(j=0;j<4;j++)for(k=0;k<4;k++)if(i!==j&&j!==k&&i!==k)pool.push(''+d[i]+d[j]+d[k]);
+  return chQ('🃏 Susun Angka','Pakai 3 dari 4 kartu angka ini (tiap kartu sekali) untuk membuat bilangan 3 angka yang paling '+(big?'BESAR':'KECIL')+'. Ingat: angka pertama tidak boleh 0!',TX('🃏 '+d.join('  '),38),ans,pool,
+    big?'Mau yang terbesar? Taruh angka paling besar di depan, lalu yang berikutnya: '+s[3]+', '+s[2]+', '+s[1]+' jadi '+ans+'.':'Mau yang terkecil? Angka depan tidak boleh 0, jadi pilih angka terkecil selain 0 yaitu '+s[1]+'. Lalu 0 di tengah, lalu '+s[2]+'. Jadi '+ans+'.')}
+var TYPES={rot:qRot,mir:qMir,com:qCom,sep:qSep,cnt:qCnt,seq:qSeq,rep:qRep,bal:qBal,jus:qJus,eq:qEq,sgn:qSign,par:qPar,age:qAge,tre:qTree,tri:qTri,grd:qGrd,cmp:qCmp,mst:qMst,hgt:qHgt,coi:qCoi,sml:qSml};
+var SEEN=[];try{SEEN=JSON.parse(localStorage.getItem('seenq')||'[]')}catch(e){}
+function hk(q){var s=q.tag+q.ask+q.q.innerHTML,h=0;for(var i=0;i<s.length;i++)h=(h*31+s.charCodeAt(i))|0;return h}
+function fresh(t,used){var q,k,n=0;do{q=TYPES[t]();k=hk(q);n++}while((SEEN.indexOf(k)>=0||used.indexOf(k)>=0)&&n<40);q.k=k;return q}
+var Q=[],idx=0,score=0,res=[],done=false,app=$('#app');
+
+function say(t){try{speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang='id-ID';speechSynthesis.speak(u)}catch(e){}}
+function home(){
+  app.innerHTML='';var c=el('div','card','<p>Pilih permainan, ya! Tiap permainan ada 5 soal yang selalu baru (tidak mengulang). Setiap soal ada penjelasannya. 🔊 bisa membacakan soal!</p>');
+  var m=el('div','menu');
+  [['mix','🎲 Campur semua'],['seq','🔮 Pola Angka/Huruf'],['rep','🔁 Pola Gambar'],['bal','⚖️ Timbangan'],['jus','🍎 Tebak Nilai'],['tre','🌳 Pohon Angka'],['tri','🔴 Segitiga Bulat'],['eq','➕ Hitung & Cari'],['sgn','➕➖ Isi Tanda'],['par','🔢 Ganjil Genap'],['sml','🃏 Susun Angka'],['cmp','🐊 Lebih Besar?'],['mst','👀 Terbanyak'],['hgt','📏 Beda Tinggi'],['coi','🪙 Tukar Koin'],['age','🎂 Umur'],['grd','🗺️ Peta Kotak'],['cnt','🟦 Hitung Kotak'],['rot','🔄 Putar'],['mir','🪞 Cermin'],['com','🧱 Gabung'],['sep','✂️ Pisah']].forEach(function(x){
+    var b=el('button',x[0]==='mix'?'gr':'',x[1]);b.onclick=function(){start(x[0])};m.appendChild(b)});
+  c.appendChild(m);app.appendChild(c)}
+function start(t){
+  var ks=sh(Object.keys(TYPES)),used=[];Q=[];idx=0;score=0;res=[];
+  for(var i=0;i<5;i++){var q=fresh(t==='mix'?ks[i]:t,used);used.push(q.k);Q.push(q)}
+  SEEN=SEEN.concat(used).slice(-800);try{localStorage.setItem('seenq',JSON.stringify(SEEN))}catch(e){}
+  show()}
+function show(){
+  var q=Q[idx],answered=false;app.innerHTML='';
+  var d='';for(var i=0;i<5;i++)d+='<span class="'+(res[i]===1?'d':res[i]===0?'x':i===idx?'n':'')+'"></span>';
+  var top=el('div','bar','<span class="dots">'+d+'</span><span>⭐ '+score+'</span>');var mb=el('button','','⬅️ Kembali ke menu');mb.style.cssText='background:var(--line);padding:6px 14px;font-size:16px;margin:0 0 6px';mb.onclick=function(){try{speechSynthesis.cancel()}catch(e){}home()};app.appendChild(mb);app.appendChild(top);
+  var c=el('div','card');c.appendChild(el('span','tag',q.tag+' · Soal '+(idx+1)));
+  var p=el('p','',q.ask+' ');var sp=el('button','','🔊');sp.style.padding='4px 12px';sp.onclick=function(){say(q.ask)};p.appendChild(sp);
+  c.appendChild(p);c.appendChild(q.q);
+  var os=el('div','opts'),fb=el('div','fb');
+  q.opts.forEach(function(node,i){
+    var b=el('button','opt','<b>'+(i+1)+'</b>');b.appendChild(node);
+    b.onclick=function(){
+      if(answered)return;answered=true;var ok=i===q.ans;
+      [].slice.call(os.children).forEach(function(x,j){if(j===q.ans)x.classList.add('ok')});
+      if(ok)score++;else b.classList.add('no');
+      res[idx]=ok?1:0;top.querySelector('span:last-child').textContent='⭐ '+score;
+      fb.innerHTML='<div class="res '+(ok?'good':'bad')+'">'+(ok?'🎉 Hebat! Benar!':'Hampir! Jawabannya nomor '+(q.ans+1))+'</div>';
+      var w=el('div','tip','💡 '+q.why);var sb=el('button','','🔊');sb.style.padding='4px 12px';sb.onclick=function(){say(q.why)};w.appendChild(sb);fb.appendChild(w);
+      if(q.demo)fb.appendChild(q.demo());
+      var nx=el('button','gr',idx<4?'Lanjut ➡️':'Lihat bintangku ⭐');nx.onclick=function(){idx++;idx<5?show():finish()};
+      var bx=el('div');bx.style.textAlign='center';bx.appendChild(nx);fb.appendChild(bx);
+      say(ok?'Hebat! Benar!':'Hampir! Jawabannya nomor '+(q.ans+1));
+      fb.scrollIntoView({behavior:'smooth',block:'nearest'})};
+    os.appendChild(b)});
+  c.appendChild(os);c.appendChild(fb);app.appendChild(c)}
+function finish(){
+  app.innerHTML='';var s='';for(var i=0;i<5;i++)s+=i<score?'⭐':'☆';
+  var m=score===5?'Luar biasa! Kamu jago sekali! 🏆':score>=3?'Bagus sekali! Sedikit lagi sempurna! 👏':'Ayo coba lagi, pasti bisa! 💪';
+  var c=el('div','card','<h2>Selesai!</h2><div class="stars">'+s+'</div><p>Benar '+score+' dari 5.<br>'+m+'</p>');
+  var a=el('button','alt','Main lagi 🔁');a.onclick=home;c.appendChild(a);app.appendChild(c);say(m)}
+home();
+</script>
+</body>
+</html>
